@@ -1,195 +1,146 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>{{ text.title }}</title>
+<meta charset="UTF-8">
+<title>{{ text.title }}</title>
 
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #f4f6f9;
-            margin: 0;
-            padding: 40px;
-        }
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 40px;
+}
 
-        h1 {
-            margin-bottom: 5px;
-        }
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    max-width: 500px;
+    margin: auto;
+}
 
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-        }
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
-        form {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            max-width: 500px;
-            margin: auto;
-        }
+button {
+    width: 100%;
+    padding: 10px;
+    background: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-        label {
-            font-weight: 600;
-            color: #444;
-        }
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    margin: 20px auto;
+    max-width: 700px;
+}
 
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
+.ok { border-left: 6px solid #4CAF50; }
+.fail { border-left: 6px solid #e53935; }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #4CAF50;
-            border: none;
-            color: white;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #43a047;
-            transform: scale(1.02);
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            margin: 20px auto;
-            max-width: 700px;
-            animation: fadeIn 0.5s ease-in;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .ok {
-            border-left: 6px solid #4CAF50;
-        }
-
-        .fail {
-            border-left: 6px solid #e53935;
-        }
-
-        hr {
-            border: none;
-            height: 1px;
-            background: #ddd;
-            margin: 40px 0;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+</style>
 </head>
 
 <body>
 
-<div style="max-width: 900px; margin: auto;">
+<h2 style="text-align:center;">SchemeSathi</h2>
 
-    <div style="text-align:center; margin-bottom:30px;">
-        <h1 style="color:#2c3e50;">SchemeSathi</h1>
-        <p style="color:#777;">Find the right government schemes instantly</p>
-    </div>
+<form method="POST">
 
-    <h2>{{ text.title }}</h2>
+<label>Language:</label>
+<select name="lang">
+    <option value="en" {% if lang=="en" %}selected{% endif %}>English</option>
+    <option value="ml" {% if lang=="ml" %}selected{% endif %}>മലയാളം</option>
+</select>
 
-    <form method="POST">
+<label>Search Scheme:</label>
+<input type="text" name="search" placeholder="Type scheme name...">
 
-        <label>Language:</label>
-        <select name="lang">
-            <option value="en" {% if lang=="en" %}selected{% endif %}>English</option>
-            <option value="ml" {% if lang=="ml" %}selected{% endif %}>മലയാളം</option>
-        </select>
+<label>Category:</label>
+<select name="category">
+    <option value="all">All</option>
+    <option value="agriculture">Agriculture</option>
+    <option value="pension">Pension</option>
+    <option value="health">Health</option>
+    <option value="education">Education</option>
+    <option value="employment">Employment</option>
+    <option value="insurance">Insurance</option>
+    <option value="women">Women</option>
+    <option value="housing">Housing</option>
+</select>
 
-        <label>Age:</label>
-        <input type="number" name="age" required>
+<label>Age:</label>
+<input type="number" name="age" required>
 
-        <label>Income:</label>
-        <input type="number" name="income" required>
+<label>Income:</label>
+<input type="number" name="income" required>
 
-        <label>Occupation:</label>
-        <select name="occupation">
-            <option value="farmer">Farmer</option>
-            <option value="student">Student</option>
-            <option value="any">Other</option>
-        </select>
+<label>Occupation:</label>
+<select name="occupation">
+    <option value="farmer">Farmer</option>
+    <option value="student">Student</option>
+    <option value="any">Other</option>
+</select>
 
-        <label>Gender:</label>
-        <select name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="any">Other</option>
-        </select>
+<label>Gender:</label>
+<select name="gender">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="any">Other</option>
+</select>
 
-        <label>State:</label>
-        <select name="state">
-            <option value="kerala">Kerala</option>
-            <option value="other">Other State</option>
-        </select>
+<label>State:</label>
+<select name="state">
+    <option value="kerala">Kerala</option>
+    <option value="other">Other State</option>
+</select>
 
-        <button type="submit">{{ text.check }}</button>
-    </form>
+<button type="submit">{{ text.check }}</button>
 
-    <hr>
+</form>
 
-    <h3>✅ {{ text.eligible }}</h3>
-    <p><strong>{{ schemes|length }}</strong> schemes matched your profile</p>
+<hr>
 
-    {% for scheme in schemes %}
-    <div class="card ok">
-        <h4>{{ scheme.name }}</h4>
+<h3>✅ {{ text.eligible }} ({{ schemes|length }})</h3>
 
-        <span style="background:#e3f2fd; padding:4px 8px; border-radius:6px; font-size:12px;">
-            {{ scheme.category }}
-        </span>
-
-        <p><strong>Benefit:</strong> {{ scheme.benefit }}</p>
-        <p><strong>Description:</strong> {{ scheme.description }}</p>
-
-        <ul>
-            {% for r in scheme.reasons %}
-            <li>{{ r }}</li>
-            {% endfor %}
-        </ul>
-
-        <p>
-            <a href="{{ scheme.official_link }}" target="_blank">
-                Official Website
-            </a>
-        </p>
-    </div>
-    {% endfor %}
-
-    <h3>❌ {{ text.not_eligible }}</h3>
-
-    {% for scheme in not_eligible %}
-    <div class="card fail">
-        <h4>{{ scheme.name }}</h4>
-        <ul>
-            {% for r in scheme.fail_reasons %}
-            <li>{{ r }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endfor %}
-
+{% for scheme in schemes %}
+<div class="card ok">
+    <h4>{{ scheme.name }}</h4>
+    <p><strong>Category:</strong> {{ scheme.category }}</p>
+    <p><strong>Benefit:</strong> {{ scheme.benefit }}</p>
+    <ul>
+        {% for r in scheme.reasons %}
+        <li>{{ r }}</li>
+        {% endfor %}
+    </ul>
 </div>
+{% endfor %}
+
+<h3>❌ {{ text.not_eligible }}</h3>
+
+{% for scheme in not_eligible %}
+<div class="card fail">
+    <h4>{{ scheme.name }}</h4>
+    <ul>
+        {% for r in scheme.fail_reasons %}
+        <li>{{ r }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %}
 
 </body>
 </html>
