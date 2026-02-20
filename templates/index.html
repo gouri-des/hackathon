@@ -1,49 +1,195 @@
-<form method="POST">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ text.title }}</title>
 
-    <!-- Language -->
-    <label>Language:</label>
-    <select name="lang">
-        <option value="en" {% if lang=="en" %}selected{% endif %}>English</option>
-        <option value="ml" {% if lang=="ml" %}selected{% endif %}>മലയാളം</option>
-    </select>
-    <br><br>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
 
-    <!-- Age -->
-    Age:
-    <input type="number" name="age" required>
-    <br><br>
+        h1 {
+            margin-bottom: 5px;
+        }
 
-    <!-- Income -->
-    Income:
-    <input type="number" name="income" required>
-    <br><br>
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
 
-    <!-- Occupation -->
-    Occupation:
-    <select name="occupation">
-        <option value="farmer">Farmer</option>
-        <option value="student">Student</option>
-        <option value="any">Other</option>
-    </select>
-    <br><br>
+        form {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 500px;
+            margin: auto;
+        }
 
-    <!-- NEW: Gender -->
-    Gender:
-    <select name="gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="any">Other</option>
-    </select>
-    <br><br>
+        label {
+            font-weight: 600;
+            color: #444;
+        }
 
-    <!-- NEW: State -->
-    State:
-    <select name="state">
-        <option value="kerala">Kerala</option>
-        <option value="other">Other State</option>
-    </select>
-    <br><br>
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
 
-    <button type="submit">{{ text.check }}</button>
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-</form>
+        button:hover {
+            background: #43a047;
+            transform: scale(1.02);
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin: 20px auto;
+            max-width: 700px;
+            animation: fadeIn 0.5s ease-in;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .ok {
+            border-left: 6px solid #4CAF50;
+        }
+
+        .fail {
+            border-left: 6px solid #e53935;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: #ddd;
+            margin: 40px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<div style="max-width: 900px; margin: auto;">
+
+    <div style="text-align:center; margin-bottom:30px;">
+        <h1 style="color:#2c3e50;">SchemeSathi</h1>
+        <p style="color:#777;">Find the right government schemes instantly</p>
+    </div>
+
+    <h2>{{ text.title }}</h2>
+
+    <form method="POST">
+
+        <label>Language:</label>
+        <select name="lang">
+            <option value="en" {% if lang=="en" %}selected{% endif %}>English</option>
+            <option value="ml" {% if lang=="ml" %}selected{% endif %}>മലയാളം</option>
+        </select>
+
+        <label>Age:</label>
+        <input type="number" name="age" required>
+
+        <label>Income:</label>
+        <input type="number" name="income" required>
+
+        <label>Occupation:</label>
+        <select name="occupation">
+            <option value="farmer">Farmer</option>
+            <option value="student">Student</option>
+            <option value="any">Other</option>
+        </select>
+
+        <label>Gender:</label>
+        <select name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="any">Other</option>
+        </select>
+
+        <label>State:</label>
+        <select name="state">
+            <option value="kerala">Kerala</option>
+            <option value="other">Other State</option>
+        </select>
+
+        <button type="submit">{{ text.check }}</button>
+    </form>
+
+    <hr>
+
+    <h3>✅ {{ text.eligible }}</h3>
+    <p><strong>{{ schemes|length }}</strong> schemes matched your profile</p>
+
+    {% for scheme in schemes %}
+    <div class="card ok">
+        <h4>{{ scheme.name }}</h4>
+
+        <span style="background:#e3f2fd; padding:4px 8px; border-radius:6px; font-size:12px;">
+            {{ scheme.category }}
+        </span>
+
+        <p><strong>Benefit:</strong> {{ scheme.benefit }}</p>
+        <p><strong>Description:</strong> {{ scheme.description }}</p>
+
+        <ul>
+            {% for r in scheme.reasons %}
+            <li>{{ r }}</li>
+            {% endfor %}
+        </ul>
+
+        <p>
+            <a href="{{ scheme.official_link }}" target="_blank">
+                Official Website
+            </a>
+        </p>
+    </div>
+    {% endfor %}
+
+    <h3>❌ {{ text.not_eligible }}</h3>
+
+    {% for scheme in not_eligible %}
+    <div class="card fail">
+        <h4>{{ scheme.name }}</h4>
+        <ul>
+            {% for r in scheme.fail_reasons %}
+            <li>{{ r }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
