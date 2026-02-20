@@ -3,6 +3,7 @@ import json
 
 app = Flask(__name__)
 
+# Load datasets
 with open('schemes.json', encoding='utf-8') as f:
     schemes = json.load(f)
 
@@ -17,7 +18,7 @@ def home():
     submitted = False
 
     lang = request.form.get("lang", "en")
-    text = languages[lang]
+    text = languages.get(lang, languages["en"])
 
     if request.method == 'POST':
         submitted = True
@@ -25,8 +26,12 @@ def home():
         age = int(request.form['age'])
         income = int(request.form['income'])
         occupation = request.form['occupation']
+        search = request.form.get("search", "").lower()
+        category = request.form.get("category", "all")
+        gender = request.form.get("gender", "any")
+        state = request.form.get("state", "any")
 
-        # 🔔 Underage rule (THIS WILL NOW WORK)
+        # Underage warning
         if age < 18 and occupation != "student":
             underage_warning = (
                 "Applicants below 18 years are eligible only under student-specific schemes."
@@ -36,6 +41,25 @@ def home():
             pass_reasons = []
             fail_reasons = []
 
+            # SAFE access (no KeyErrors)
+            scheme_category = scheme.get("category", "other")
+            scheme_gender = scheme.get("gender", "any")
+            scheme_state = scheme.get("state", "any")
+
+            # Search & filters
+            if search and search not in scheme['name'].lower():
+                continue
+
+            if category != "all" and scheme_category != category:
+                continue
+
+            if gender != "any" and scheme_gender != "any" and scheme_gender != gender:
+                continue
+
+            if state != "any" and scheme_state != "any" and scheme_state != state:
+                continue
+
+            # Eligibility checks
             if age >= scheme['min_age']:
                 pass_reasons.append(text["age_ok"])
             else:
@@ -52,6 +76,7 @@ def home():
                 fail_reasons.append(text["occupation_fail"])
 
             scheme_copy = scheme.copy()
+            scheme_copy["category"] = scheme_category  # ensure UI always has it
 
             if not fail_reasons:
                 scheme_copy["reasons"] = pass_reasons
