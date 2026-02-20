@@ -13,13 +13,24 @@ with open('lang.json', encoding='utf-8') as f:
 def home():
     eligible_schemes = []
     not_eligible = []
+    underage_warning = None
+    submitted = False
+
     lang = request.form.get("lang", "en")
     text = languages[lang]
 
     if request.method == 'POST':
+        submitted = True
+
         age = int(request.form['age'])
         income = int(request.form['income'])
         occupation = request.form['occupation']
+
+        # 🔔 Underage rule (THIS WILL NOW WORK)
+        if age < 18 and occupation != "student":
+            underage_warning = (
+                "Applicants below 18 years are eligible only under student-specific schemes."
+            )
 
         for scheme in schemes:
             pass_reasons = []
@@ -54,7 +65,9 @@ def home():
         schemes=eligible_schemes,
         not_eligible=not_eligible,
         text=text,
-        lang=lang
+        lang=lang,
+        underage_warning=underage_warning,
+        submitted=submitted
     )
 
 if __name__ == "__main__":
