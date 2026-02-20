@@ -109,7 +109,7 @@ h3 {
 }
 
 .eligible { border-left: 5px solid var(--success); }
-.not-eligible { border-left: 5px solid var(--danger); opacity: 0.9; }
+.not-eligible { border-left: 5px solid var(--danger); opacity: 0.95; }
 
 .scheme-card h4 {
     margin: 0 0 10px 0;
@@ -146,6 +146,15 @@ a:hover { text-decoration: underline; }
     border-radius: 12px;
     margin: 20px 0 30px 0;
     font-size: 14px;
+}
+
+.suggestions {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #7c2d12;
+    background: #fff7ed;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 @media (max-width: 700px) {
@@ -243,7 +252,16 @@ a:hover { text-decoration: underline; }
 
 </div>
 
+<div style="margin-top: 12px;">
+    <label style="font-size:14px;">
+        <input type="checkbox" name="only_eligible"
+        {% if show_only_eligible %}checked{% endif %}>
+        Show only eligible schemes
+    </label>
+</div>
+
 <button type="submit">{{ text.check }}</button>
+
 </form>
 </div>
 
@@ -274,22 +292,36 @@ a:hover { text-decoration: underline; }
 </div>
 {% endfor %}
 
+{% if not show_only_eligible %}
 <h3>❌ {{ text.not_eligible }}</h3>
 
 {% for scheme in not_eligible %}
 <div class="scheme-card not-eligible">
     <h4>{{ scheme.name }}</h4>
+
     <ul>
         {% for r in scheme.fail_reasons %}
         <li>{{ r }}</li>
         {% endfor %}
     </ul>
 
+    {% if scheme.suggestions %}
+    <div class="suggestions">
+        <strong>Suggestions:</strong>
+        <ul>
+            {% for s in scheme.suggestions %}
+            <li>{{ s }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
     <a href="{{ scheme.official_link }}" target="_blank">
         View Official Criteria
     </a>
 </div>
 {% endfor %}
+{% endif %}
 
 </div>
 </body>
