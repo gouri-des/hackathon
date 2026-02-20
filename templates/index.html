@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SchemeSathi</title>
+</head>
+<body>
+
+    <h2>SchemeSathi - Check Your Eligibility</h2>
+
+    <form method="POST">
+        <label>Age:</label>
+        <input type="number" name="age" required><br><br>
+
+        <label>Annual Income:</label>
+        <input type="number" name="income" required><br><br>
+
+        <label>Occupation:</label>
+        <select name="occupation">
+            <option value="farmer">Farmer</option>
+            <option value="student">Student</option>
+            <option value="any">Other</option>
+        </select><br><br>
+
+        <button type="submit">Check Eligibility</button>
+    </form>
+
+    <h3>Eligible Schemes:</h3>
+
+    {% for scheme in schemes %}
+        <div>
+            <strong>{{ scheme.name }}</strong><br>
+            Benefit: {{ scheme.benefit }}<br>
+            Documents: {{ scheme.documents }}<br>
+            <a href="{{ scheme.official_link }}">Official Link</a>
+            <hr>
+        </div>
+    {% endfor %}
+
+</body>
+</html>
