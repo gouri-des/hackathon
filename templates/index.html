@@ -39,14 +39,24 @@
 <hr>
 
 <h3>{{ text.eligible }}</h3>
+
 {% for scheme in schemes %}
 <div class="card ok">
     <b>{{ scheme.name }}</b>
+
+    <p><b>Benefit:</b> {{ scheme.benefit }}</p>
+    <p><b>Documents Required:</b> {{ scheme.documents }}</p>
+
+    <p><b>Why Eligible:</b></p>
     <ul>
         {% for r in scheme.reasons %}
         <li>{{ r }}</li>
         {% endfor %}
     </ul>
+
+    <a href="{{ scheme.official_link }}" target="_blank">
+        🔗 Official Government Link
+    </a>
 </div>
 {% endfor %}
 
@@ -54,6 +64,9 @@
 {% for scheme in not_eligible %}
 <div class="card fail">
     <b>{{ scheme.name }}</b>
+    <a href="{{ scheme.official_link }}" target="_blank">
+    🔗 View Official Criteria
+</a>
     <ul>
         {% for r in scheme.fail_reasons %}
         <li>{{ r }}</li>
