@@ -138,6 +138,16 @@ a {
 
 a:hover { text-decoration: underline; }
 
+.warning {
+    background: #fff7ed;
+    border-left: 6px solid #f97316;
+    color: #7c2d12;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin: 20px 0 30px 0;
+    font-size: 14px;
+}
+
 @media (max-width: 700px) {
     .form-grid { grid-template-columns: 1fr; }
 }
@@ -190,6 +200,15 @@ a:hover { text-decoration: underline; }
         <select name="occupation">
             <option value="farmer">Farmer</option>
             <option value="student">Student</option>
+            <option value="unemployed">Unemployed</option>
+            <option value="self_employed">Self Employed</option>
+            <option value="government_employee">Government Employee</option>
+            <option value="private_employee">Private Employee</option>
+            <option value="daily_wage_worker">Daily Wage Worker</option>
+            <option value="senior_citizen">Senior Citizen</option>
+            <option value="disabled">Person with Disability</option>
+            <option value="entrepreneur">Entrepreneur</option>
+            <option value="homemaker">Homemaker</option>
             <option value="any">Other</option>
         </select>
     </div>
@@ -207,15 +226,16 @@ a:hover { text-decoration: underline; }
     <div class="form-group">
         <label>Gender</label>
         <select name="gender">
+            <option value="any">Any</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="any">Other</option>
         </select>
     </div>
 
     <div class="form-group">
         <label>State</label>
         <select name="state">
+            <option value="any">Any</option>
             <option value="kerala">Kerala</option>
             <option value="other">Other State</option>
         </select>
@@ -227,12 +247,17 @@ a:hover { text-decoration: underline; }
 </form>
 </div>
 
+{% if submitted and underage_warning %}
+<div class="warning">
+    ⚠️ {{ underage_warning }}
+</div>
+{% endif %}
+
 <h3>✅ {{ text.eligible }} ({{ schemes|length }})</h3>
 
 {% for scheme in schemes %}
 <div class="scheme-card eligible">
     <h4>{{ scheme.name }}</h4>
-
     <div class="meta"><b>Category:</b> {{ scheme.category }}</div>
     <div class="meta"><b>Benefit:</b> {{ scheme.benefit }}</div>
     <div class="meta"><b>Documents:</b> {{ scheme.documents }}</div>
@@ -254,7 +279,6 @@ a:hover { text-decoration: underline; }
 {% for scheme in not_eligible %}
 <div class="scheme-card not-eligible">
     <h4>{{ scheme.name }}</h4>
-
     <ul>
         {% for r in scheme.fail_reasons %}
         <li>{{ r }}</li>
