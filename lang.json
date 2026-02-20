@@ -1,0 +1,26 @@
+{
+  "en": {
+    "title": "SchemeSathi – Smart Welfare Eligibility Checker",
+    "check": "Check Eligibility",
+    "eligible": "Eligible Schemes",
+    "not_eligible": "Not Eligible Schemes",
+    "age_ok": "Age criteria satisfied",
+    "age_fail": "Age criteria not satisfied",
+    "income_ok": "Income within limit",
+    "income_fail": "Income exceeds limit",
+    "occupation_ok": "Occupation matched",
+    "occupation_fail": "Occupation does not match"
+  },
+  "ml": {
+    "title": "സ്കീം സഖി – സർക്കാർ സഹായങ്ങൾ കണ്ടെത്തുക",
+    "check": "അർഹത പരിശോധിക്കുക",
+    "eligible": "അർഹമായ പദ്ധതികൾ",
+    "not_eligible": "അർഹതയില്ലാത്ത പദ്ധതികൾ",
+    "age_ok": "പ്രായ മാനദണ്ഡം പാലിച്ചു",
+    "age_fail": "പ്രായ മാനദണ്ഡം പാലിച്ചില്ല",
+    "income_ok": "വരുമാനം പരിധിയിൽ ആണ്",
+    "income_fail": "വരുമാനം പരിധി കവിയുന്നു",
+    "occupation_ok": "തൊഴിൽ പൊരുത്തപ്പെടുന്നു",
+    "occupation_fail": "തൊഴിൽ പൊരുത്തപ്പെടുന്നില്ല"
+  }
+}
